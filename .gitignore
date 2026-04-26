@@ -20,3 +20,6 @@ $RECYCLE.BIN/
 .directory
 .Trash-*
 .nfs*
+
+# Claude Code
+.claude/
