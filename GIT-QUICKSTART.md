@@ -138,6 +138,45 @@ So far this is all local. To collaborate, back up to GitHub, or sync between mac
 - **Merge conflicts** — what happens when two drafts edited the same paragraph; git pauses and asks you to choose. Resolve by hand, then `git add` + `git commit`.
 - `git rebase` — rewrite history to keep it tidy. Powerful, easy to misuse. Learn it once `merge` feels natural.
 
+## Working with Claude Code (and Cowork) on a git repo
+
+When you start a Claude Code session on a project, the assistant doesn't edit your files directly. It spawns itself in a **git worktree** — a second checkout of the same repo, on its own branch — so it can work in isolation without touching your manuscript on `master`.
+
+In practice that means there are two checkouts of your project on disk at the same time:
+
+| Where | Branch | Who works there |
+| --- | --- | --- |
+| `/Users/carlo/my-novel-test/` | `master` | You |
+| `/Users/carlo/my-novel-test/.claude/worktrees/<name>/` | `claude/<name>` | Claude |
+
+Both share the same `.git` repo (the bound history is shared), but each has its own working copy of the files. This is by design — it means Claude's experiments can never overwrite your in-progress edits on `master`.
+
+### The collaboration flow
+
+The normal back-and-forth looks like this:
+
+1. **Claude works on the worktree branch and commits there.** You'll see those commits in `git log`, but the files won't appear in your main checkout yet.
+2. **You (or Claude on your behalf) merge that branch into `master`.** From your main checkout: `git merge --ff-only claude/<name>`. After this, the files appear at `/Users/carlo/my-novel-test/`.
+3. **The worktree can be removed** once you're done with it: `git worktree remove .claude/worktrees/<name>`. This cleans up the second checkout but keeps the branch and its commits — they're already merged into `master`.
+
+So when you finish a Claude session and don't see the new files in your usual folder: that's expected. You haven't merged yet. Run `git log --oneline --all --graph` to confirm Claude's commits exist on a sibling branch, then merge.
+
+### "Do I need a pull request?"
+
+Not for local work. A **pull request** is a *GitHub* concept — a discussion/review wrapper around a merge, used when collaborating on a remote repo. For solo, local Claude work, `git merge` is the whole story. PRs only enter the picture once you push the worktree branch up to GitHub and want a review step before merging.
+
+### A small gotcha: stale lock files
+
+Because two checkouts share one `.git` directory, two git processes occasionally bump into each other when modifying the index. Git uses temporary lock files (`.git/index.lock`, `.git/HEAD.lock`) to prevent corruption. If a process is killed mid-operation, those lock files can survive as 0-byte stragglers and block the next git command.
+
+If you see `Unable to create '.git/index.lock': File exists`:
+
+1. Check no git process is actually running: `ps aux | grep '[g]it '`
+2. Check no other tool is touching the repo (GitHub Desktop is the most common offender — quit it while working with Claude on the same repo)
+3. If it's clearly stale, remove it: `rm /path/to/repo/.git/index.lock`
+
+Don't reflexively delete locks — but if no process is alive, they're just leftovers.
+
 ## Three habits worth building early
 
 1. **Save (commit) often, in small logical units.** One commit, one idea: "Cut chapter 3 opening" is a commit. "Whole-novel rewrite" is not.
