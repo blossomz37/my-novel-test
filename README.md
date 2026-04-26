@@ -9,3 +9,6 @@ This repository is for learning git and GitHub fundamentals.
 
 ## Current Status
 Just starting out with git basics.
+
+## Getting Started
+See [GIT-QUICKSTART.md](GIT-QUICKSTART.md) — a beginner's guide to local git, written for authors, with a translation table from familiar document-editor terms (Save As, Track Changes, Version History) to git concepts. Also covers the Claude Code worktree collaboration flow.
