@@ -2,11 +2,11 @@
 
 ## Context
 
-Right now `my-novel-test` is a purely local git repo — every commit lives on Carlo's laptop and nowhere else. Goals:
+Right now `my-novel-test` is a purely local git repo — every commit lives on the user's laptop and nowhere else. Goals:
 
 1. **Backup** — losing the laptop currently means losing the repo
 2. **A place to push from anywhere** — opens the door to GitHub Desktop, the GitHub web UI, future collaboration, etc.
-3. **Educational** — Carlo wants to walk through the *first time you ever connect a local repo to a remote*, with each step explained
+3. **Educational** — the user wants to walk through the *first time you ever connect a local repo to a remote*, with each step explained
 
 This is the natural next step after learning the local git loop. The session has already produced a strong local history (9 commits, including a beginner guide), and pushing that history to GitHub means the lessons-learned artifact is also preserved off-machine.
 
@@ -19,7 +19,7 @@ User answers from clarifying questions:
 - `gh` CLI installed at `/opt/homebrew/bin/gh` (v2.78.0)
 - Authenticated as GitHub user **`blossomz37`** with `repo` scope
 - No `origin` remote currently configured
-- Working trees clean on both `/Users/carlo/my-novel-test/` (currently `master` @ `f4a6218`) and the Claude worktree
+- Working trees clean on both `~/projects/my-novel-test/` (currently `master` @ `f4a6218`) and the Claude worktree
 
 ## What's about to happen — concepts first
 
@@ -36,12 +36,12 @@ Four steps:
 
 ## Steps
 
-All commands run from `/Users/carlo/my-novel-test/` (the main checkout). The Claude worktree is left alone; it stays on its `claude/unruffled-cohen-755056` branch and isn't pushed to GitHub.
+All commands run from `~/projects/my-novel-test/` (the main checkout). The Claude worktree is left alone; it stays on its `claude/unruffled-cohen-755056` branch and isn't pushed to GitHub.
 
 ### Step 1 — Rename `master` to `main` (local only)
 
 ```bash
-cd /Users/carlo/my-novel-test
+cd ~/projects/my-novel-test
 git branch -m master main
 ```
 

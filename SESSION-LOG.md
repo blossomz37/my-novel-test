@@ -21,8 +21,8 @@ nothing to commit, working tree clean
 ## Worktrees
 
 ```
-/Users/carlo/my-novel-test                                           9d64030 [master]
-/Users/carlo/my-novel-test/.claude/worktrees/unruffled-cohen-755056  9d64030 [claude/unruffled-cohen-755056]
+~/projects/my-novel-test                                           9d64030 [master]
+~/projects/my-novel-test/.claude/worktrees/unruffled-cohen-755056  9d64030 [claude/unruffled-cohen-755056]
 ```
 
 Both checkouts are at the same commit — the worktree branch was fast-forwarded into `master`.

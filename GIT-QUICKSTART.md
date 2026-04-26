@@ -146,8 +146,8 @@ In practice that means there are two checkouts of your project on disk at the sa
 
 | Where | Branch | Who works there |
 | --- | --- | --- |
-| `/Users/carlo/my-novel-test/` | `master` | You |
-| `/Users/carlo/my-novel-test/.claude/worktrees/<name>/` | `claude/<name>` | Claude |
+| `~/projects/my-novel-test/` | `master` | You |
+| `~/projects/my-novel-test/.claude/worktrees/<name>/` | `claude/<name>` | Claude |
 
 Both share the same `.git` repo (the bound history is shared), but each has its own working copy of the files. This is by design — it means Claude's experiments can never overwrite your in-progress edits on `master`.
 
@@ -156,7 +156,7 @@ Both share the same `.git` repo (the bound history is shared), but each has its 
 The normal back-and-forth looks like this:
 
 1. **Claude works on the worktree branch and commits there.** You'll see those commits in `git log`, but the files won't appear in your main checkout yet.
-2. **You (or Claude on your behalf) merge that branch into `master`.** From your main checkout: `git merge --ff-only claude/<name>`. After this, the files appear at `/Users/carlo/my-novel-test/`.
+2. **You (or Claude on your behalf) merge that branch into `master`.** From your main checkout: `git merge --ff-only claude/<name>`. After this, the files appear at `~/projects/my-novel-test/`.
 3. **The worktree can be removed** once you're done with it: `git worktree remove .claude/worktrees/<name>`. This cleans up the second checkout but keeps the branch and its commits — they're already merged into `master`.
 
 So when you finish a Claude session and don't see the new files in your usual folder: that's expected. You haven't merged yet. Run `git log --oneline --all --graph` to confirm Claude's commits exist on a sibling branch, then merge.

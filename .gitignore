@@ -23,3 +23,6 @@ $RECYCLE.BIN/
 
 # Claude Code
 .claude/
+
+# Zip archives
+*.zip
